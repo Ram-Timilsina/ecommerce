@@ -1,61 +1,122 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Footer from "./Footer";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  // Fetch the products when the component mounts
   useEffect(() => {
     const fetchProducts = async () => {
-      console.log("...getting data");
       const URL = "https://fakestoreapi.com/products";
-      try {
-        const response = await fetch(URL);
-        const data = await response.json();
-        setProducts(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
+      const response = await fetch(URL);
+      const data = await response.json();
+      setProducts(data);
+      setFilteredProducts(data);
+      const categoryList = [...new Set(data.map((item) => item.category))];
+      setCategories(categoryList);
     };
-
     fetchProducts();
   }, []);
 
-  // Handle input change for search
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
+  const handleCategoryFilter = (category) => {
+    setSelectedCategory(category);
+    if (category === "") {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(
+        (product) => product.category === category
+      );
+      setFilteredProducts(filtered);
+    }
   };
 
-  // Filter products based on searchTerm
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
   return (
-    <div>
-      <header class="py-3 bg-pink-50 text-2xl">
-        <div class="ml-40">/Product</div>
+    <div className="bg-gray-50 min-h-screen">
+      <header className="py-4 bg-purple-600 text-2xl text-white font-semibold shadow-lg">
+        <div className="text-center">Product Catalog</div>
       </header>
-      <div className="h-80 bg-red-400 w-3/12">
-        <div className="p-8">
+
+      <div className="flex px-4 lg:px-10 py-6">
+        {/* Sidebar with categories */}
+        <aside className="w-1/4 bg-white rounded-lg p-6 shadow-lg">
           <input
             type="text"
-            placeholder="Find a product"
-            value={searchTerm}
-            onChange={handleInputChange}
-            className="mb-2"
+            placeholder="Search for a product"
+            className="mb-4 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
-          <button className="bg-blue-800 px-2 py-1 rounded-lg text-white mt-1">
-            Submit
+          <button className="bg-purple-600 text-white px-4 py-2 rounded-md w-full hover:bg-purple-700 transition-colors">
+            Search
           </button>
-          <h1 className="font-black">Products</h1>
-          <div>
-            {filteredProducts.map((product) => (
-              <h2 key={product.id}>{product.title}</h2>
+
+          <h3 className="font-semibold text-lg mt-6 mb-4">Categories</h3>
+          <ul className="space-y-2">
+            <li
+              onClick={() => handleCategoryFilter("")}
+              className={`cursor-pointer ${
+                selectedCategory === "" ? "text-purple-600 font-semibold" : ""
+              } hover:text-purple-600 transition-colors`}
+            >
+              All Products
+            </li>
+            {categories.map((category, index) => (
+              <li
+                key={index}
+                onClick={() => handleCategoryFilter(category)}
+                className={`cursor-pointer ${
+                  selectedCategory === category
+                    ? "text-purple-600 font-semibold"
+                    : ""
+                } hover:text-purple-600 transition-colors`}
+              >
+                {category}
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+          {selectedCategory && (
+            <button
+              className="text-red-500 mt-4 underline cursor-pointer"
+              onClick={() => handleCategoryFilter("")}
+            >
+              Clear Filter
+            </button>
+          )}
+        </aside>
+
+        {/* Product Grid */}
+        <main className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="bg-white p-6 shadow-lg rounded-lg hover:shadow-2xl transition-shadow flex flex-col items-center"
+              >
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-56 object-contain mb-4"
+                />
+                <h3 className="text-center font-semibold text-lg text-gray-800 mb-2">
+                  {product.title}
+                </h3>
+                <p className="text-center text-gray-600 mb-4">
+                  ${product.price}
+                </p>
+                <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
+                  View Details
+                </button>
+              </div>
+            ))
+          ) : (
+            <p className="text-center col-span-full text-gray-600 text-lg">
+              .....Loading......
+            </p>
+          )}
+        </main>
       </div>
+
+      <Footer />
     </div>
   );
 };
