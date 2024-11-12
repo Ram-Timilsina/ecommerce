@@ -1,5 +1,6 @@
 import React from "react";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -16,9 +17,11 @@ const Home = () => {
             <br /> shopping experience. Visit us now!
           </p>
           <div className="py-16">
-            <button className="bg-cyan-400 p-3 rounded-lg font-semibold">
-              SHOP NOW
-            </button>
+            <Link to="/OurProducts">
+              <button className="bg-cyan-400 p-3 rounded-lg font-semibold">
+                SHOP NOW
+              </button>
+            </Link>
           </div>
         </div>
 

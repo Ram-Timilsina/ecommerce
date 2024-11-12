@@ -1,5 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+
 const Nav = () => {
   return (
     <div className="py-7  text-2xl place-content-between">
@@ -17,16 +20,42 @@ const Nav = () => {
         </li>
         <div className="flex gap-x-8 ">
           <li>
-            <Link to="/">Home</Link>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "underline decoration-blue-500" : ""
+              }
+              to="/"
+            >
+              Home
+            </NavLink>
           </li>
           <li>
-            <Link to="/AboutUs">About Us</Link>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "underline decoration-blue-500" : ""
+              }
+              to="/AboutUs"
+            >
+              About Us
+            </NavLink>
           </li>
           <li>
-            <Link to="/OurProducts">Our Products</Link>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "underline decoration-blue-500" : ""
+              }
+              to="/OurProducts"
+            >
+              Our Products
+            </NavLink>
           </li>
-
-          <div className="bg-red-300"></div>
+          <div>
+            {" "}
+            <FontAwesomeIcon
+              icon={faShoppingCart}
+              className="text-purple-600 text-2xl"
+            />
+          </div>
         </div>
       </ul>
     </div>

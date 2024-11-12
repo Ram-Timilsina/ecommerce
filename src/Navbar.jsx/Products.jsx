@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
-
+import loader from "../../public/image/loader.gif";
+import { Link } from "react-router-dom";
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [sortorder, setSortOrder] = useState("");
+  const [products, setProducts] = useState([]); //All data
+  const [filtersearch, setFilterSearching] = useState(""); //filter product based on search
+  const [categories, setCategories] = useState([]); //unique product title
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -20,23 +23,49 @@ const Products = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const filtered = products.filter((product) =>
+      product.title.toLowerCase().includes(filtersearch.toLowerCase())
+    );
+    if (selectedCategory) {
+      setFilteredProducts(
+        filtered.filter((product) => product.category === selectedCategory)
+      );
+    } else {
+      setFilteredProducts(filtered);
+    }
+  }, [filtersearch, selectedCategory, products]);
+
   const handleCategoryFilter = (category) => {
     setSelectedCategory(category);
-    if (category === "") {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(
-        (product) => product.category === category
+  };
+
+  const sortPrice = (value) => {
+    if (value === "heighest") {
+      // Copy the products array before sorting
+      const sortedPrice = [...filteredProducts].sort(
+        (item1, item2) => item2.price - item1.price
       );
-      setFilteredProducts(filtered);
+      setFilteredProducts(sortedPrice);
+    } else if (value === "lowest") {
+      const sortedPrice = [...filteredProducts].sort(
+        (item1, item2) => item1.price - item2.price
+      );
+      setFilteredProducts(sortedPrice);
     }
   };
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <header className="py-4 bg-purple-600 text-2xl text-white font-semibold shadow-lg">
-        <div className="text-center">Product Catalog</div>
+      <header className="py-4 bg-purple-600 text-2xl text-white font-semibold shadow-lg text-center">
+        Product Catalog
       </header>
+      <div className="flex justify-center h-14 my-2 border-gray-500">
+        <select onChange={(e) => sortPrice(e.target.value)}>
+          <option value={"heighest"}>Heighest-Lowest</option>
+          <option value={"lowest"}>Lowest-Heighest</option>
+        </select>
+      </div>
 
       <div className="flex px-4 lg:px-10 py-6">
         {/* Sidebar with categories */}
@@ -44,12 +73,10 @@ const Products = () => {
           <input
             type="text"
             placeholder="Search for a product"
+            value={filtersearch}
+            onChange={(e) => setFilterSearching(e.target.value)}
             className="mb-4 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
-          <button className="bg-purple-600 text-white px-4 py-2 rounded-md w-full hover:bg-purple-700 transition-colors">
-            Search
-          </button>
-
           <h3 className="font-semibold text-lg mt-6 mb-4">Categories</h3>
           <ul className="space-y-2">
             <li
@@ -103,15 +130,19 @@ const Products = () => {
                 <p className="text-center text-gray-600 mb-4">
                   ${product.price}
                 </p>
-                <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
-                  View Details
-                </button>
+                <Link to={`/viewDetails/${product.id}`}>
+                  <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
+                    View Details
+                  </button>
+                </Link>
               </div>
             ))
           ) : (
-            <p className="text-center col-span-full text-gray-600 text-lg">
-              .....Loading......
-            </p>
+            <div className="text-center col-span-full text-gray-600 text-lg">
+              <div className="flex justify-center">
+                <img className="h-40 text-center" src={loader}></img>
+              </div>
+            </div>
           )}
         </main>
       </div>
