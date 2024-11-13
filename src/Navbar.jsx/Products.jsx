@@ -42,7 +42,6 @@ const Products = () => {
 
   const sortPrice = (value) => {
     if (value === "heighest") {
-      // Copy the products array before sorting
       const sortedPrice = [...filteredProducts].sort(
         (item1, item2) => item2.price - item1.price
       );
@@ -60,22 +59,27 @@ const Products = () => {
       <header className="py-4 bg-purple-600 text-2xl text-white font-semibold shadow-lg text-center">
         Product Catalog
       </header>
-      <div className="flex justify-center h-14 my-2 border-gray-500">
-        <select onChange={(e) => sortPrice(e.target.value)}>
+      <div className="flex justify-center h-14 my-2">
+        <select
+          className="bg-gray-600 text-white px-4 py-2 hover:bg-gray-700"
+          onChange={(e) => sortPrice(e.target.value)}
+        >
           <option value={"heighest"}>Heighest-Lowest</option>
           <option value={"lowest"}>Lowest-Heighest</option>
         </select>
       </div>
 
       <div className="flex px-4 lg:px-10 py-6">
-        {/* Sidebar with categories */}
-        <aside className="w-1/4 bg-white rounded-lg p-6 shadow-lg">
+        <aside
+          className="max-w-55
+         bg-white rounded-lg p-6 shadow-lg"
+        >
           <input
             type="text"
             placeholder="Search for a product"
             value={filtersearch}
             onChange={(e) => setFilterSearching(e.target.value)}
-            className="mb-4 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="mb-4 max-w-40 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
           <h3 className="font-semibold text-lg mt-6 mb-4">Categories</h3>
           <ul className="space-y-2">
@@ -146,7 +150,6 @@ const Products = () => {
           )}
         </main>
       </div>
-
       <Footer />
     </div>
   );
