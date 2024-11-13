@@ -1,72 +1,77 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+
 const ViewDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState("");
-  const [counter, setCounter] = useState(0);
-  console.log(product);
+  const [counter, setCounter] = useState(1);
+
   useEffect(() => {
     const apiFetch = async () => {
       const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-      const data1 = await response.json();
-      setProduct(data1);
+      const data = await response.json();
+      setProduct(data);
     };
     apiFetch();
   }, [id]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div>
-      <div className="absolute">
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+      <div className="w-full mb-6">
         <Link to="/ourProducts">
-          <button className="bg-blue-200 ">Back to Products</button>
+          <button className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+            Back to Products
+          </button>
         </Link>
       </div>
 
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
-        <div className="max-w-md w-full bg-white shadow-lg rounded-lg overflow-hidden ">
-          <div className="w-full  shadow-lg mb-4 object-cover">
-            <img src={product.image} alt={product.title} className="" />
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl w-full flex p-6">
+        <div className="w-1/2 flex items-center justify-center">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="object-contain w-full h-full"
+          />
+        </div>
+
+        <div className="w-1/2 p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            {product.title}
+          </h2>
+          <p className="text-sm text-yellow-500 mb-2">
+            ★ {product.rating?.rate}/5 ({product.rating?.count} customer
+            reviews)
+          </p>
+          <p className="text-xl font-semibold text-gray-800 mb-4">
+            ${product.price}
+          </p>
+          <p className="text-gray-600 mb-4">{product.description}</p>
+          <p className="text-gray-500 text-sm mb-6">
+            Category: {product.category}
+          </p>
+
+          <div className="flex items-center mb-6">
+            <button
+              onClick={() => counter > 1 && setCounter(counter - 1)}
+              className="text-2xl text-gray-600 p-2 rounded border border-gray-300"
+            >
+              -
+            </button>
+            <span className="mx-4 text-lg">{counter}</span>
+            <button
+              onClick={() => setCounter(counter + 1)}
+              className="text-2xl text-gray-600 p-2 rounded border border-gray-300"
+            >
+              +
+            </button>
           </div>
-          <div className="p-6">
-            <h2 className="text-3xl font-bold text-purple-700 mb-2 text-center">
-              {product.title}
-            </h2>
-            <p className="text-lg font-semibold text-gray-800 text-center mb-4">
-              Price: <span className="text-purple-600">${product.price}</span>
-            </p>
-            <p className="text-md font-medium text-gray-600 text-center mb-4">
-              Category: {product.category}
-            </p>
-            <p className="text-base text-gray-700 leading-relaxed text-justify">
-              {product.description}
-            </p>
-            <div>
-              <div className=" flex justify-center text-6xl">
-                <button
-                  onClick={() => {
-                    if (counter > 0) {
-                      setCounter(counter - 1);
-                    }
-                  }}
-                >
-                  -
-                </button>
-                {counter}
-                <button
-                  onClick={() => {
-                    setCounter(counter + 1);
-                  }}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <div className="mt-6 flex justify-center">
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-                Add to Cart
-              </button>
-            </div>
-          </div>
+
+          <button className="bg-yellow-500 text-white w-full py-2 rounded hover:bg-yellow-600 transition-colors">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
