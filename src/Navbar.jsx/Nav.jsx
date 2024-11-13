@@ -49,13 +49,20 @@ const Nav = () => {
               Our Products
             </NavLink>
           </li>
-          <div>
-            {" "}
-            <FontAwesomeIcon
-              icon={faShoppingCart}
-              className="text-purple-600 text-2xl"
-            />
-          </div>
+
+          <Link to="/cartItems" className="flex gap-2 ">
+            <div className=" gap-2 ">
+              <h3 className="text-xs font-bold  mt-2">Cart</h3>
+            </div>
+            <div className="">
+              <div className=" cart-item-count">0</div>
+
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                className=" text-purple-600 text-2xl mt-1 "
+              />
+            </div>
+          </Link>
         </div>
       </ul>
     </div>
