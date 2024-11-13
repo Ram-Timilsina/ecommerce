@@ -4,6 +4,7 @@ import Nav from "./Navbar.jsx/Nav";
 import AboutUs from "./Navbar.jsx/AboutUs";
 import Products from "./Navbar.jsx/Products";
 import ViewDetail from "./Navbar.jsx/ViewDetail";
+import CartItems from "./Navbar.jsx/CartItems";
 const App = () => {
   return (
     <div>
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/ourProducts" element={<Products />} />
           <Route path="/viewDetails/:id" element={<ViewDetail />} />
+          <Route path="/cartItems" element={<CartItems />} />
         </Routes>
       </BrowserRouter>
     </div>
