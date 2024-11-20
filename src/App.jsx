@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        <header>
+        <header className="sticky bg-white top-0">
           <Nav />
         </header>
         <Routes>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
+import { CartContext } from "../Context/CartContext";
 
 const ViewDetail = () => {
   const { id } = useParams();
@@ -17,6 +18,13 @@ const ViewDetail = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const { setCart, cart } = useContext(CartContext);
+
+  const handleAddToCart = () => {
+    const result = cart.find((items) => items.id == product.id);
+    console.log(result);
+    setCart([...cart, { ...product, quantity: counter }]);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center p-6">
@@ -69,7 +77,10 @@ const ViewDetail = () => {
             </button>
           </div>
 
-          <button className="bg-yellow-500 text-white w-full py-2 rounded hover:bg-yellow-600 transition-colors">
+          <button
+            onClick={handleAddToCart}
+            className="bg-yellow-500 text-white w-full py-2 rounded hover:bg-yellow-600 transition-colors"
+          >
             Add to Cart
           </button>
         </div>

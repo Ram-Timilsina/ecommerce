@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { CartContext } from "../Context/CartContext";
 
 const Nav = () => {
+  const { cart } = useContext(CartContext);
+
   return (
     <div className="py-7  text-2xl place-content-between">
       <ul className="flex gap-48">
@@ -18,7 +21,7 @@ const Nav = () => {
             </div>
           </Link>
         </li>
-        <div className="flex gap-x-8 ">
+        <div className="flex gap-x-8 items-center">
           <li>
             <NavLink
               className={({ isActive }) =>
@@ -50,12 +53,14 @@ const Nav = () => {
             </NavLink>
           </li>
 
-          <Link to="/cartItems" className="flex gap-2 ">
-            <div className=" gap-2 ">
-              <h3 className="text-xs font-bold  mt-2">Cart</h3>
+          <Link to="/cartItems" className="flex  items-center gap-1 ">
+            <div className=" gap-1 ">
+              <h3 className="text-lg font-bold ">Cart</h3>
             </div>
-            <div className="">
-              <div className=" cart-item-count">0</div>
+            <div className="relative  p-2.5">
+              <div className=" absolute text-sm right-0 top-0 rounded-full w-4 h-4 bg-red-500 text-white flex items-center justify-center">
+                {cart.length}
+              </div>
 
               <FontAwesomeIcon
                 icon={faShoppingCart}
