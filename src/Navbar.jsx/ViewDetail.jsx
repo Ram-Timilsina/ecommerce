@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../Context/CartContext";
 
 const ViewDetail = () => {
@@ -19,11 +19,22 @@ const ViewDetail = () => {
     window.scrollTo(0, 0);
   }, []);
   const { setCart, cart } = useContext(CartContext);
-
+  const navigate = useNavigate();
   const handleAddToCart = () => {
-    const result = cart.find((items) => items.id == product.id);
-    console.log(result);
-    setCart([...cart, { ...product, quantity: counter }]);
+    const existingProduct = cart.find((item) => item.id === product.id);
+
+    if (existingProduct) {
+      setCart(
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + counter }
+            : item
+        )
+      );
+    } else {
+      setCart([...cart, { ...product, quantity: counter }]);
+    }
+    navigate("/cartItems");
   };
 
   return (
