@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Footer from "./Footer";
 const AboutUs = () => {
   return (
     <div>
@@ -7,7 +6,7 @@ const AboutUs = () => {
         <div className="text-center">About Us</div>
       </header>
 
-      <div className="flex">
+      <div className="flex flex-col-reverse items-center justify-around md:flex-row">
         <div className="w-full pt-5 pl-40 ml-2/4">
           <h1 className="text-4xl font-semibold ">WHO ARE WE?</h1>
           <p className="py-5 ">
@@ -21,10 +20,9 @@ const AboutUs = () => {
           </p>
         </div>
         <div className="px-10">
-          <img className="h-4/5 my-3" src="/image/what.png" />
+          <img className="w-80  my-3" src="/image/what.png" />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

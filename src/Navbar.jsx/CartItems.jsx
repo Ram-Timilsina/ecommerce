@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const CartItems = () => {
   const { cart, setCart } = useContext(CartContext);
-
   const totalAmount = cart.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -26,6 +25,10 @@ const CartItems = () => {
     );
   };
 
+  const DeleteItem = (index) => {
+    const update = cart.filter((item) => item.id !== index);
+    setCart(update);
+  };
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center">Shopping Cart</h1>
@@ -83,6 +86,13 @@ const CartItems = () => {
                 <p className="text-xl font-semibold">
                   ${(item.price * item.quantity).toFixed(2)}
                 </p>
+                <br />
+                <button
+                  onClick={() => DeleteItem(item.id)}
+                  className="border p-2 rounded bg-blue-500 hover:bg-blue-700 text-white"
+                >
+                  Delete From Cart
+                </button>
               </div>
             </div>
           ))}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Footer from "./Footer";
 import loader from "../../public/image/loader.gif";
 import { Link } from "react-router-dom";
 const Products = () => {
@@ -150,7 +149,6 @@ const Products = () => {
           )}
         </main>
       </div>
-      <Footer />
     </div>
   );
 };

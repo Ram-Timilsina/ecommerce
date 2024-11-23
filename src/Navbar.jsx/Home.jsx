@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "./Footer";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -68,7 +67,6 @@ const Home = () => {
           </p>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -5,6 +5,8 @@ import AboutUs from "./Navbar.jsx/AboutUs";
 import Products from "./Navbar.jsx/Products";
 import ViewDetail from "./Navbar.jsx/ViewDetail";
 import CartItems from "./Navbar.jsx/CartItems";
+import Footer from "./Navbar.jsx/Footer";
+
 const App = () => {
   return (
     <div>
@@ -20,6 +22,7 @@ const App = () => {
           <Route path="/cartItems" element={<CartItems />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </div>
   );
 };
