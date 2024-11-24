@@ -91,7 +91,7 @@ const CartItems = () => {
                   onClick={() => DeleteItem(item.id)}
                   className="border p-2 rounded bg-blue-500 hover:bg-blue-700 text-white"
                 >
-                  Delete From Cart
+                  Remove From Cart
                 </button>
               </div>
             </div>
