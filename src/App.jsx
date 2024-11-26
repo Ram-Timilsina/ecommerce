@@ -6,7 +6,7 @@ import Products from "./Navbar.jsx/Products";
 import ViewDetail from "./Navbar.jsx/ViewDetail";
 import CartItems from "./Navbar.jsx/CartItems";
 import Footer from "./Navbar.jsx/Footer";
-
+import Login from "./Navbar.jsx/Login";
 const App = () => {
   return (
     <div>
@@ -20,6 +20,7 @@ const App = () => {
           <Route path="/ourProducts" element={<Products />} />
           <Route path="/viewDetails/:id" element={<ViewDetail />} />
           <Route path="/cartItems" element={<CartItems />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
       <Footer />

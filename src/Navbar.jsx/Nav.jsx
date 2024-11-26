@@ -74,6 +74,11 @@ const Nav = () => {
               </span>
             </Link>
           </li>
+          <li>
+            <Link to="/login" className="text-gray-700 hover:text-blue-500">
+              Login
+            </Link>
+          </li>
         </ul>
       </div>
 
@@ -126,6 +131,15 @@ const Nav = () => {
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-sm w-5 h-5 flex items-center justify-center rounded-full">
                 {cart.length}
               </span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/login"
+              className="text-gray-700 hover:text-blue-500"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Login
             </Link>
           </li>
         </ul>
