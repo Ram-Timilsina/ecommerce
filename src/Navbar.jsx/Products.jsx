@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import loader from "../../public/image/loader.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "../Context/CartContext";
 const Products = () => {
   const [sortorder, setSortOrder] = useState("");
   const [products, setProducts] = useState([]); //All data
@@ -9,6 +10,7 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  const { isLoggedIn } = useContext(CartContext);
   useEffect(() => {
     const fetchProducts = async () => {
       const URL = "https://fakestoreapi.com/products";
@@ -26,6 +28,7 @@ const Products = () => {
     const filtered = products.filter((product) =>
       product.title.toLowerCase().includes(filtersearch.toLowerCase())
     );
+
     if (selectedCategory) {
       setFilteredProducts(
         filtered.filter((product) => product.category === selectedCategory)
@@ -53,6 +56,10 @@ const Products = () => {
     }
   };
 
+  const nav = useNavigate();
+  if (!isLoggedIn) {
+    nav("/login");
+  }
   return (
     <div className="bg-gray-50 min-h-screen">
       <header className="py-4 bg-purple-600 text-2xl text-white font-semibold shadow-lg text-center">

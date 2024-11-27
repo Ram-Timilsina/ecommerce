@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { CartContext } from "../Context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { setIsLoggedIn } = useContext(CartContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -10,17 +14,23 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    debugger;
     try {
+      // Make the API call
       const response = await axios.post(
         "http://192.168.1.178:84/api/Authenticate/login",
         data
       );
-
       const token = response.data.token;
+      const userDto = response.data.userDto;
+      localStorage.setItem("userDto", JSON.stringify(userDto));
 
       localStorage.setItem("token", token);
+
+      setIsLoggedIn(true);
+      navigate("/OurProducts");
     } catch (err) {
-      console.log(err);
+      console.error("Login failed", err);
     }
   };
 
@@ -62,7 +72,7 @@ const Login = () => {
               id="password"
               type="password"
               {...register("password", {
-                required: "Passwordakjdfkja is required",
+                required: "Password is required",
               })}
               placeholder="Enter your password"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -76,11 +86,11 @@ const Login = () => {
 
           <div>
             <button
-              disabled={isSubmitting == true}
+              disabled={isSubmitting}
               type="submit"
               className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md shadow"
             >
-              {isSubmitting ? "Logging in " : "Login"}
+              {isSubmitting ? "Logging in..." : "Login"}
             </button>
           </div>
         </form>

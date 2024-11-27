@@ -5,16 +5,21 @@ const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
-  const [showNav, setShowNav] = useState("");
+  const [showNav, setShowNav] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    console.log(cart.showNav);
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
   useEffect(() => {
-    console.log("show Nav:", showNav);
-  }, [showNav]);
+    if (localStorage.getItem("token")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
   return (
-    <CartContext.Provider value={{ cart, setCart, showNav, setShowNav }}>
+    <CartContext.Provider
+      value={{ cart, setCart, showNav, setShowNav, isLoggedIn, setIsLoggedIn }}
+    >
       {children}
     </CartContext.Provider>
   );
