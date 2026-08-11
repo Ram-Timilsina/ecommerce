@@ -106,19 +106,18 @@ const Login = () => {
         </form>
 
         {/* --- DEV BYPASS: remove before production --- */}
-        {process.env.NODE_ENV === "development" && (
-          <div className="mt-4 border-t pt-4">
-            <p className="text-xs text-center text-gray-400 mb-2">
-              Dev Tools
-            </p>
-            <button
-              onClick={handleDevBypass}
-              className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md shadow text-sm"
-            >
-              ⚡ Skip Login (Dev Only)
-            </button>
-          </div>
-        )}
+       <div className="mt-4 border-t pt-4">
+  <p className="text-xs text-center text-gray-400 mb-2">
+    Dev Tools
+  </p>
+
+  <button
+    onClick={handleDevBypass}
+    className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md shadow text-sm"
+  >
+    ⚡ Skip Login
+  </button>
+</div>
 
       </div>
     </div>
