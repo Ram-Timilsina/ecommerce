@@ -14,9 +14,7 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    debugger;
     try {
-      // Make the API call
       const response = await axios.post(
         "http://192.168.1.178:84/api/Authenticate/login",
         data
@@ -24,14 +22,27 @@ const Login = () => {
       const token = response.data.token;
       const userDto = response.data.userDto;
       localStorage.setItem("userDto", JSON.stringify(userDto));
-
       localStorage.setItem("token", token);
-
       setIsLoggedIn(true);
       navigate("/OurProducts");
     } catch (err) {
       console.error("Login failed", err);
     }
+  };
+
+  // --- DEV BYPASS: remove before production ---
+  const handleDevBypass = () => {
+    const mockToken = "dev-bypass-token";
+    const mockUserDto = {
+      id: "dev-user",
+      userName: "devuser",
+      email: "dev@test.com",
+      role: "Admin",
+    };
+    localStorage.setItem("token", mockToken);
+    localStorage.setItem("userDto", JSON.stringify(mockUserDto));
+    setIsLoggedIn(true);
+    navigate("/OurProducts");
   };
 
   return (
@@ -40,6 +51,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Login
         </h1>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label
@@ -71,9 +83,7 @@ const Login = () => {
             <input
               id="password"
               type="password"
-              {...register("password", {
-                required: "Password is required",
-              })}
+              {...register("password", { required: "Password is required" })}
               placeholder="Enter your password"
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
@@ -94,6 +104,22 @@ const Login = () => {
             </button>
           </div>
         </form>
+
+        {/* --- DEV BYPASS: remove before production --- */}
+        {process.env.NODE_ENV === "development" && (
+          <div className="mt-4 border-t pt-4">
+            <p className="text-xs text-center text-gray-400 mb-2">
+              Dev Tools
+            </p>
+            <button
+              onClick={handleDevBypass}
+              className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md shadow text-sm"
+            >
+              ⚡ Skip Login (Dev Only)
+            </button>
+          </div>
+        )}
+
       </div>
     </div>
   );
